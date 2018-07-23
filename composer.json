@@ -1,26 +1,21 @@
 {
-    "name": "spatie/laravel-activitylog",
-    "description": "A very simple activity logger to monitor the users of your website or application",
-    "homepage": "https://github.com/spatie/activitylog",
+    "name": "sormagec/laravel-activitylog",
+    "description": "A very simple activity logger to monitor the users of your website or application (for MongoDB)",
+    "homepage": "https://github.com/bsormagec/laravel-activitylog",
     "keywords":
     [
         "spatie",
         "log",
         "user",
         "activity",
-        "laravel"
+        "laravel",
+        "sormagec",
+        "mongodb"
     ],
     "authors": [
         {
-            "name": "Freek Van der Herten",
-            "email": "freek@spatie.be",
-            "homepage": "https://spatie.be",
-            "role": "Developer"
-        },
-        {
-            "name": "Sebastian De Deyne",
-            "email": "sebastian@spatie.be",
-            "homepage": "https://spatie.be",
+            "name": "Burak Sormageç",
+            "email": "burak@sormagec.com",
             "role": "Developer"
         }
     ],
