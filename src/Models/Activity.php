@@ -36,7 +36,7 @@ class Activity extends Model implements ActivityContract
 
     protected static function boot()
     {
-        ActivityMongo::saving(function ($model) {
+        Activity::saving(function ($model) {
             $model->url = $model->resolveUrl();
             $model->user_agent = $model->resolveUserAgent();
             $model->ip = $model->resolveIp();
@@ -115,11 +115,11 @@ class Activity extends Model implements ActivityContract
      * Scope a query to only include activities by a given causer.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param \Jenssegers\Mongodb\Eloquent\Model $causer
+     * @param \Illuminate\Database\Eloquent\Model $causer
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeCausedBy(Builder $query, \Jenssegers\Mongodb\Eloquent\Model $causer) : Builder
+    public function scopeCausedBy(Builder $query, \Illuminate\Database\Eloquent\Model $causer) : Builder
     {
         return $query
             ->where('causer_type', $causer->getMorphClass())
@@ -130,18 +130,18 @@ class Activity extends Model implements ActivityContract
      * Scope a query to only include activities for a given subject.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param \Jenssegers\Mongodb\Eloquent\Model $subject
+     * @param \Illuminate\Database\Eloquent\Model $subject
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeForSubject(Builder $query, \Jenssegers\Mongodb\Eloquent\Model $subject) : Builder
+    public function scopeForSubject(Builder $query, \Illuminate\Database\Eloquent\Model $subject) : Builder
     {
         return $query
             ->where('subject_type', $subject->getMorphClass())
             ->where('subject_id', $subject->getKey());
     }
 
-    public function scopeAllRelations(Builder $query, \Jenssegers\Mongodb\Eloquent\Model $subject) : Builder
+    public function scopeAllRelations(Builder $query, \Illuminate\Database\Eloquent\Model $subject) : Builder
     {
         return $query
             ->where(function ($q) use ($subject) {
