@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 interface Activity
 {
-    public function subject(): MorphTo;
+    public function subject() : MorphTo;
 
-    public function causer(): MorphTo;
+    public function causer() : MorphTo;
 
     /**
      * Get the extra properties with the given name.
@@ -22,9 +22,9 @@ interface Activity
      */
     public function getExtraProperty(string $propertyName);
 
-    public function changes(): Collection;
+    public function changes() : Collection;
 
-    public function scopeInLog(Builder $query, ...$logNames): Builder;
+    public function scopeInLog(Builder $query, ...$logNames) : Builder;
 
     /**
      * Scope a query to only include activities by a given causer.
@@ -34,7 +34,7 @@ interface Activity
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeCausedBy(Builder $query, Model $causer): Builder;
+    public function scopeCausedBy(Builder $query, Model $causer) : Builder;
 
     /**
      * Scope a query to only include activities for a given subject.
@@ -44,5 +44,5 @@ interface Activity
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeForSubject(Builder $query, Model $subject): Builder;
+    public function scopeForSubject(Builder $query, Model $subject) : Builder;
 }

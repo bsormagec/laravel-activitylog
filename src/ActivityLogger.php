@@ -127,7 +127,7 @@ class ActivityLogger
      */
     public function log(string $description)
     {
-        if (! $this->logEnabled) {
+        if (!$this->logEnabled) {
             return;
         }
 
@@ -159,7 +159,7 @@ class ActivityLogger
      *
      * @return \Jenssegers\Mongodb\Eloquent\Model
      */
-    protected function normalizeCauser($modelOrId): Model
+    protected function normalizeCauser($modelOrId) : Model
     {
         if ($modelOrId instanceof Model) {
             return $modelOrId;
@@ -178,14 +178,14 @@ class ActivityLogger
         throw CouldNotLogActivity::couldNotDetermineUser($modelOrId);
     }
 
-    protected function replacePlaceholders(string $description, Activity $activity): string
+    protected function replacePlaceholders(string $description, Activity $activity) : string
     {
         return preg_replace_callback('/:[a-z0-9._-]+/i', function ($match) use ($activity) {
             $match = $match[0];
 
-            $attribute = (string) string($match)->between(':', '.');
+            $attribute = (string)string($match)->between(':', '.');
 
-            if (! in_array($attribute, ['subject', 'causer', 'properties'])) {
+            if (!in_array($attribute, ['subject', 'causer', 'properties'])) {
                 return $match;
             }
 

@@ -19,7 +19,7 @@ trait LogsActivity
     {
         static::eventsToBeRecorded()->each(function ($eventName) {
             return static::$eventName(function (Model $model) use ($eventName) {
-                if (! $model->shouldLogEvent($eventName)) {
+                if (!$model->shouldLogEvent($eventName)) {
                     return;
                 }
 
@@ -54,17 +54,17 @@ trait LogsActivity
         return $this;
     }
 
-    public function activity(): MorphMany
+    public function activity() : MorphMany
     {
         return $this->morphMany(ActivitylogServiceProvider::determineActivityModel(), 'subject');
     }
 
-    public function getDescriptionForEvent(string $eventName): string
+    public function getDescriptionForEvent(string $eventName) : string
     {
         return $eventName;
     }
 
-    public function getLogNameToUse(string $eventName = ''): string
+    public function getLogNameToUse(string $eventName = '') : string
     {
         if (isset(static::$logName)) {
             return static::$logName;
@@ -76,7 +76,7 @@ trait LogsActivity
     /*
      * Get the event names that should be recorded.
      */
-    protected static function eventsToBeRecorded(): Collection
+    protected static function eventsToBeRecorded() : Collection
     {
         if (isset(static::$recordEvents)) {
             return collect(static::$recordEvents);
@@ -95,22 +95,22 @@ trait LogsActivity
         return $events;
     }
 
-    public function attributesToBeIgnored(): array
+    public function attributesToBeIgnored() : array
     {
-        if (! isset(static::$ignoreChangedAttributes)) {
+        if (!isset(static::$ignoreChangedAttributes)) {
             return [];
         }
 
         return static::$ignoreChangedAttributes;
     }
 
-    protected function shouldLogEvent(string $eventName): bool
+    protected function shouldLogEvent(string $eventName) : bool
     {
-        if (! $this->enableLoggingModelsEvents) {
+        if (!$this->enableLoggingModelsEvents) {
             return false;
         }
 
-        if (! in_array($eventName, ['created', 'updated'])) {
+        if (!in_array($eventName, ['created', 'updated'])) {
             return true;
         }
 
@@ -121,6 +121,6 @@ trait LogsActivity
         }
 
         //do not log update event if only ignored attributes are changed
-        return (bool) count(array_except($this->getDirty(), $this->attributesToBeIgnored()));
+        return (bool)count(array_except($this->getDirty(), $this->attributesToBeIgnored()));
     }
 }

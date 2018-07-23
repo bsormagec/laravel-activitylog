@@ -11,7 +11,7 @@ use Spatie\Activitylog\Traits\RelationshipsTrait;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Request;
 
-class ActivityMongo extends Model implements ActivityContract
+class Activity extends Model implements ActivityContract
 {
     use RelationshipsTrait;
     protected $table;

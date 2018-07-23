@@ -16,17 +16,17 @@ class ActivitylogServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/activitylog.php' => config_path('activitylog.php'),
+            __DIR__ . '/../config/activitylog.php' => config_path('activitylog.php'),
         ], 'config');
 
-        $this->mergeConfigFrom(__DIR__.'/../config/activitylog.php', 'activitylog');
+        $this->mergeConfigFrom(__DIR__ . '/../config/activitylog.php', 'activitylog');
 
-        if (! class_exists('CreateActivityLogTable')) {
+        if (!class_exists('CreateActivityLogTable')) {
             $timestamp = date('Y_m_d_His', time());
 
             $this->publishes([
-                __DIR__.'/../migrations/create_activity_log_table.php.stub' => database_path("/migrations/{$timestamp}_create_activity_log_table.php"),
-                __DIR__.'/../migrations/enhance_activity_log_table.php.stub' => database_path("/migrations/{$timestamp}_enhance_activity_log_table.php"),
+                __DIR__ . '/../migrations/create_activity_log_table.php.stub' => database_path("/migrations/{$timestamp}_create_activity_log_table.php"),
+                __DIR__ . '/../migrations/enhance_activity_log_table.php.stub' => database_path("/migrations/{$timestamp}_enhance_activity_log_table.php"),
             ], 'migrations');
         }
     }
@@ -43,19 +43,19 @@ class ActivitylogServiceProvider extends ServiceProvider
         ]);
     }
 
-    public static function determineActivityModel(): string
+    public static function determineActivityModel() : string
     {
         $activityModel = config('activitylog.activity_model') ?? ActivityModel::class;
 
-        if (! is_a($activityModel, Activity::class, true)
-            || ! is_a($activityModel, Model::class, true)) {
+        if (!is_a($activityModel, Activity::class, true)
+            || !is_a($activityModel, Model::class, true)) {
             throw InvalidConfiguration::modelIsNotValid($activityModel);
         }
 
         return $activityModel;
     }
 
-    public static function getActivityModelInstance(): Model
+    public static function getActivityModelInstance() : Model
     {
         $activityModelClassName = self::determineActivityModel();
 

@@ -23,7 +23,7 @@ trait DetectsChanges
         }
     }
 
-    public function attributesToBeLogged(): array
+    public function attributesToBeLogged() : array
     {
         $attributes = [];
 
@@ -44,18 +44,18 @@ trait DetectsChanges
         return $attributes;
     }
 
-    public function shouldlogOnlyDirty(): bool
+    public function shouldlogOnlyDirty() : bool
     {
-        if (! isset(static::$logOnlyDirty)) {
+        if (!isset(static::$logOnlyDirty)) {
             return false;
         }
 
         return static::$logOnlyDirty;
     }
 
-    public function attributeValuesToBeLogged(string $processingEvent): array
+    public function attributeValuesToBeLogged(string $processingEvent) : array
     {
-        if (! count($this->attributesToBeLogged())) {
+        if (!count($this->attributesToBeLogged())) {
             return [];
         }
 
@@ -87,7 +87,7 @@ trait DetectsChanges
         return $properties;
     }
 
-    public static function logChanges(Model $model): array
+    public static function logChanges(Model $model) : array
     {
         $changes = [];
         foreach ($model->attributesToBeLogged() as $attribute) {
@@ -101,7 +101,7 @@ trait DetectsChanges
         return $changes;
     }
 
-    protected static function getRelatedModelAttributeValue(Model $model, string $attribute): array
+    protected static function getRelatedModelAttributeValue(Model $model, string $attribute) : array
     {
         if (substr_count($attribute, '.') > 1) {
             throw CouldNotLogChanges::invalidAttribute($attribute);
