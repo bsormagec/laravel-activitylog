@@ -3,7 +3,7 @@
 namespace Spatie\Activitylog;
 
 use Illuminate\Auth\AuthManager;
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model;
 use Illuminate\Support\Traits\Macroable;
 use Spatie\Activitylog\Contracts\Activity;
 use Illuminate\Contracts\Config\Repository;
@@ -21,10 +21,10 @@ class ActivityLogger
     /** @var bool */
     protected $logEnabled;
 
-    /** @var \Illuminate\Database\Eloquent\Model */
+    /** @var \Jenssegers\Mongodb\Eloquent\Model */
     protected $performedOn;
 
-    /** @var \Illuminate\Database\Eloquent\Model */
+    /** @var \Jenssegers\Mongodb\Eloquent\Model */
     protected $causedBy;
 
     /** @var \Illuminate\Support\Collection */
@@ -65,7 +65,7 @@ class ActivityLogger
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Model|int|string $modelOrId
+     * @param \Jenssegers\Mongodb\Eloquent\Model|int|string $modelOrId
      *
      * @return $this
      */
@@ -153,11 +153,11 @@ class ActivityLogger
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Model|int|string $modelOrId
+     * @param \Jenssegers\Mongodb\Eloquent\Model|int|string $modelOrId
      *
      * @throws \Spatie\Activitylog\Exceptions\CouldNotLogActivity
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Jenssegers\Mongodb\Eloquent\Model
      */
     protected function normalizeCauser($modelOrId): Model
     {
