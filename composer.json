@@ -1,5 +1,5 @@
 {
-    "name": "sormagec/laravel-activitylog",
+    "name": "sormagec/laravel-activitylog-mongo",
     "description": "A very simple activity logger to monitor the users of your website or application (for MongoDB)",
     "homepage": "https://github.com/bsormagec/laravel-activitylog",
     "keywords":
