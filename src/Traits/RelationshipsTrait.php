@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) Padosoft
  * based on https://laracasts.com/@phildawson
@@ -42,8 +43,10 @@ trait RelationshipsTrait
                     $type = (new ReflectionClass($return))->getShortName();
                     $model_relation = (new ReflectionClass($return->getRelated()))->getName();
                     $foreignKey = method_exists($return, 'getForeignKey') ? $return->getForeignKey() : '';
-                    $foreignTable = explode('.',
-                        method_exists($return, 'getQualifiedOwnerKeyName') ? $return->getQualifiedOwnerKeyName() : '');
+                    $foreignTable = explode(
+                        '.',
+                        method_exists($return, 'getQualifiedOwnerKeyName') ? $return->getQualifiedOwnerKeyName() : ''
+                    );
 
                     if ($type == 'MorphTo') {
                         $model_relation = $this->{$return->getMorphType()};
@@ -57,7 +60,8 @@ trait RelationshipsTrait
                     ];
                 }
             } catch (ErrorException $e) {
-            } finally {
+            }
+            finally {
 
             }
         }

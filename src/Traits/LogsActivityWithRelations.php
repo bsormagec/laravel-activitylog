@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) Padosoft.com 2018.
  */
@@ -24,7 +25,7 @@ trait LogsActivityWithRelations
         self::bootLogsActivity();
     }*/
 
-    public function attributeValuesToBeLogged(string $processingEvent): array
+    public function attributeValuesToBeLogged(string $processingEvent) : array
     {
         $properties = $this->attributeValuesToBeLoggedBase($processingEvent);
 

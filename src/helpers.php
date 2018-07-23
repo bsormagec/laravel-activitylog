@@ -2,8 +2,8 @@
 
 use Spatie\Activitylog\ActivityLogger;
 
-if (! function_exists('activity')) {
-    function activity(string $logName = null): ActivityLogger
+if (!function_exists('activity')) {
+    function activity(string $logName = null) : ActivityLogger
     {
         $defaultLogName = config('activitylog.default_log_name');
 

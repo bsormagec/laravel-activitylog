@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) Padosoft.com 2018.
  */
@@ -12,7 +13,7 @@ trait HasActivityWithRelations
 {
     use LogsActivityWithRelations;
 
-    public function actions(): MorphMany
+    public function actions() : MorphMany
     {
         return $this->morphMany(ActivitylogServiceProvider::determineActivityModel(), 'causer');
     }

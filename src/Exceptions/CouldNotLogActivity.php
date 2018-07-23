@@ -1,5 +1,4 @@
 <?php
-
 namespace Spatie\Activitylog\Exceptions;
 
 use Exception;

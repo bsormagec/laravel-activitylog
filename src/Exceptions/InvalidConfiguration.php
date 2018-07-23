@@ -1,9 +1,8 @@
 <?php
-
 namespace Spatie\Activitylog\Exceptions;
 
 use Exception;
-use Jenssegers\Mongodb\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Contracts\Activity;
 
 class InvalidConfiguration extends Exception

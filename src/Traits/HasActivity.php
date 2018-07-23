@@ -9,7 +9,7 @@ trait HasActivity
 {
     use LogsActivity;
 
-    public function actions(): MorphMany
+    public function actions() : MorphMany
     {
         return $this->morphMany(ActivitylogServiceProvider::determineActivityModel(), 'causer');
     }
