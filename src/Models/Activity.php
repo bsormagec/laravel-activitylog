@@ -3,16 +3,20 @@
 namespace Spatie\Activitylog\Models;
 
 use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Spatie\Activitylog\Contracts\Activity as ActivityContract;
+use Spatie\Activitylog\Traits\RelationshipsTrait;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Request;
 
-class Activity extends Model implements ActivityContract
+class ActivityMongo extends Model implements ActivityContract
 {
+    use RelationshipsTrait;
     protected $table;
+
+    protected $collection = 'activity_log';
 
     public $guarded = [];
 
@@ -20,9 +24,19 @@ class Activity extends Model implements ActivityContract
         'properties' => 'collection',
     ];
 
+    public function __construct(array $attributes = [])
+    {
+        $this->collection = config('activitylog.table_name');
+        if (config('activitylog.connection', null) !== null) {
+            $this->connection = config('activitylog.connection', null);
+        }
+
+        parent::__construct($attributes);
+    }
+
     protected static function boot()
     {
-        Activity::saving(function ($model) {
+        ActivityMongo::saving(function ($model) {
             $model->url = $model->resolveUrl();
             $model->user_agent = $model->resolveUserAgent();
             $model->ip = $model->resolveIp();
@@ -51,14 +65,7 @@ class Activity extends Model implements ActivityContract
         return 'console';
     }
 
-    public function __construct(array $attributes = [])
-    {
-        $this->table = config('activitylog.table_name');
-
-        parent::__construct($attributes);
-    }
-
-    public function subject(): MorphTo
+    public function subject() : MorphTo
     {
         if (config('activitylog.subject_returns_soft_deleted_models')) {
             return $this->morphTo()->withTrashed();
@@ -67,7 +74,7 @@ class Activity extends Model implements ActivityContract
         return $this->morphTo();
     }
 
-    public function causer(): MorphTo
+    public function causer() : MorphTo
     {
         return $this->morphTo();
     }
@@ -84,7 +91,7 @@ class Activity extends Model implements ActivityContract
         return array_get($this->properties->toArray(), $propertyName);
     }
 
-    public function changes(): Collection
+    public function changes() : Collection
     {
         if (!$this->properties instanceof Collection) {
             return new Collection();
@@ -95,7 +102,7 @@ class Activity extends Model implements ActivityContract
         }, ARRAY_FILTER_USE_KEY));
     }
 
-    public function scopeInLog(Builder $query, ...$logNames): Builder
+    public function scopeInLog(Builder $query, ...$logNames) : Builder
     {
         if (is_array($logNames[0])) {
             $logNames = $logNames[0];
@@ -108,11 +115,11 @@ class Activity extends Model implements ActivityContract
      * Scope a query to only include activities by a given causer.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param \Illuminate\Database\Eloquent\Model $causer
+     * @param \Jenssegers\Mongodb\Eloquent\Model $causer
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeCausedBy(Builder $query, Model $causer): Builder
+    public function scopeCausedBy(Builder $query, \Jenssegers\Mongodb\Eloquent\Model $causer) : Builder
     {
         return $query
             ->where('causer_type', $causer->getMorphClass())
@@ -123,26 +130,26 @@ class Activity extends Model implements ActivityContract
      * Scope a query to only include activities for a given subject.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param \Illuminate\Database\Eloquent\Model $subject
+     * @param \Jenssegers\Mongodb\Eloquent\Model $subject
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeForSubject(Builder $query, Model $subject): Builder
+    public function scopeForSubject(Builder $query, \Jenssegers\Mongodb\Eloquent\Model $subject) : Builder
     {
         return $query
             ->where('subject_type', $subject->getMorphClass())
             ->where('subject_id', $subject->getKey());
     }
 
-    public function scopeAllRelations(Builder $query, \Illuminate\Database\Eloquent\Model $subject): Builder
+    public function scopeAllRelations(Builder $query, \Jenssegers\Mongodb\Eloquent\Model $subject) : Builder
     {
         return $query
             ->where(function ($q) use ($subject) {
                 $q->where('subject_type', '=', $subject->getMorphClass())
-                  ->where('subject_id', $subject->getKey());
+                    ->where('subject_id', $subject->getKey());
             })->orWhere(function ($q) use ($subject) {
                 $q->where('causer_type', '=', $subject->getMorphClass())
-                  ->where('causer_id', $subject->getKey());
+                    ->where('causer_id', $subject->getKey());
             })->orWhere('properties', 'LIKE', '%' . $subject->getTable() . '":"' . $subject->getKey() . '"%');
     }
 }
