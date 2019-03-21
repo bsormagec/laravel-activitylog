@@ -3,7 +3,7 @@
 namespace Spatie\Activitylog\Exceptions;
 
 use Exception;
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model;
 use Spatie\Activitylog\Contracts\Activity;
 
 class InvalidConfiguration extends Exception

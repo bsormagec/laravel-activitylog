@@ -5,7 +5,7 @@ namespace Spatie\Activitylog;
 use Spatie\String\Str;
 use Illuminate\Support\Arr;
 use Illuminate\Auth\AuthManager;
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Model;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Config\Repository;
 use Spatie\Activitylog\Exceptions\CouldNotLogActivity;
