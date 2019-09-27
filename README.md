@@ -80,7 +80,7 @@ If you've found a security issue please mail [freek@spatie.be](mailto:freek@spat
 You can install the package via composer:
 
 ``` bash
-composer require spatie/laravel-activitylog
+composer require sormagec/laravel-activitylog-mongo
 ```
 
 The package will automatically register itself.
